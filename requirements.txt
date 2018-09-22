@@ -1,0 +1,64 @@
+# Jarvis core dependencies
+APScheduler==3.0.1
+argparse==1.2.2
+mock==1.0.1
+pytz==2014.10
+PyYAML==3.11
+
+# Pocketsphinx STT engine
+cmuclmtk==0.1.5
+
+# HN module
+beautifulsoup4==4.6.3
+semantic==1.0.3
+
+# Birthday/Notifications modules
+facebook-sdk==0.4.0
+
+# Weather/News/location modules
+feedparser==5.1.3
+cookies==2.2.1
+python-forecastio==1.4.0
+responses==0.9.0
+decorator==4.3.0
+future==0.16.0
+geocoder==1.38.1
+ratelim==0.1.6
+geographiclib==1.49
+geopy==1.17.0
+weather-api==1.0.4
+geojson==2.3.0
+pyown==2.9.0
+
+# Gmail module
+python-dateutil==2.3
+
+# MPDControl module
+python-mpd==0.3.0
+
+#requests
+get==1.0.3
+post==1.0.2
+public===1.0.3
+query-string==1.0.2
+request==1.0.2
+requests==2.19.1
+
+#other required things
+bs4==0.0.1
+click==6.7
+gtts==2.0.1
+gtts-token==1.1.2
+six==1.11.0
+
+#Speech Recognition
+SpeechRecognition==3.8.1
+
+#TTS
+pyttsx==1.1
+pyttsx3==2.7
+
+#Able to run on windows
+pywin32==223
+pypiwin32==223
+
