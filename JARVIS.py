@@ -121,7 +121,7 @@ def myCommand():
 
     try:
         command = r.recognize_google(audio).lower()
-        print('You said: ' + command + '\n')
+        #print('You said: ' + command + '\n')
         # engine.say('You said: ' + command)
         # engine.runAndWait()
     #loop back to continue to listen for commands if unrecognizable speech is received
