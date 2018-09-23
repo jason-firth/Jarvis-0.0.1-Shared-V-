@@ -26,7 +26,7 @@ now = datetime.now()
 Currenthour=now.strftime('%I')
 AmPm=now.strftime('%p')
 
-if(int(Currenthour)>=12 and AmPm =='Pm'):
+if(int(Currenthour)<=12 and AmPm =='Pm'):
     engine.say('Good evening sir')
     engine.runAndWait()
 else:
