@@ -19,10 +19,10 @@ from voiceit2 import VoiceIt2
 from time import gmtime, strftime
 import pyaudio
 import wave
-import alarm.py
+# import alarmJ
 
 engine = pyttsx3.init()
-
+loopCommand = True
 now = datetime.now()
 Currenthour=now.strftime('%I')
 AmPm=now.strftime('%p')
@@ -134,7 +134,22 @@ def myCommand():
     return command
 
 
-
+def alarmjarvis(endTime, ampm):
+    alarmGoing = True
+    print("confirm set alarm for " + endTime)
+    while True:
+        assistant(myCommand())
+        now = datetime.now()
+        if((now.strftime('%I:%M') + ampm) == endTime):
+            if(alarmGoing == True):
+                if(ampm == "a.m."):
+                    engine.say('Good morning sir, this is you alarm for ' + now.strftime('%I:%M') + ampm)
+                    engine.runAndWait()
+                    alarmGoing = False
+                else:
+                    engine.say('Good afternoon sir, this is you alarm for ' + now.strftime('%I:%M') + ampm)
+                    engine.runAndWait()
+                    alarmGoing = False
 
 
 def assistant(command):
@@ -244,15 +259,14 @@ def assistant(command):
             else:
                 talkToMe('I don\'t know what you mean!')
         elif 'alarm' in command:
-            reg_ex = re.search('set alarm for (.*)', command)
+            reg_ex = re.search('an alarm for (.*)', command)
             if reg_ex:
                 time = reg_ex.group(1)
                 now = datetime.now()
                 completeAmPm = ""
                 AmPmCommand=now.strftime('%p')
-                for letter in AmPmCommand:
-                    completeAmPm = completeAmPm + letter.lower() + "."
-                alarm.alarm(time, completeAmPm)
+                talkToMe("Alarm set for " + time)
+                alarmjarvis(time, completeAmPm)
 
 
 
@@ -260,4 +274,5 @@ def assistant(command):
 
 while True:
 #     if(authenticated):
-    assistant(myCommand())
+    if(loopCommand):
+        assistant(myCommand())
