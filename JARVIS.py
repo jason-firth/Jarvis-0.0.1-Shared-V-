@@ -19,6 +19,7 @@ from voiceit2 import VoiceIt2
 from time import gmtime, strftime
 import pyaudio
 import wave
+import alarm.py
 
 engine = pyttsx3.init()
 
@@ -121,7 +122,7 @@ def myCommand():
 
     try:
         command = r.recognize_google(audio).lower()
-        #print('You said: ' + command + '\n')
+        print('You said: ' + command + '\n')
         # engine.say('You said: ' + command)
         # engine.runAndWait()
     #loop back to continue to listen for commands if unrecognizable speech is received
@@ -242,11 +243,16 @@ def assistant(command):
                              'The lowest temperature will be %.1f degrees.' % (forecasts[i].date(), forecasts[i].text(), (int(forecasts[i].high())-32)/1.8, (int(forecasts[i].low())-32)/1.8))
             else:
                 talkToMe('I don\'t know what you mean!')
-        elif 'set alarm' in command:
-            # reg_ex = re.search('set alarm for (.*)', command)
-            # if reg_ex:
-            #     time = reg_ex.group(1)
-            print(command)
+        elif 'alarm' in command:
+            reg_ex = re.search('set alarm for (.*)', command)
+            if reg_ex:
+                time = reg_ex.group(1)
+                now = datetime.now()
+                completeAmPm = ""
+                AmPmCommand=now.strftime('%p')
+                for letter in AmPmCommand:
+                    completeAmPm = completeAmPm + letter.lower() + "."
+                alarm.alarm(time, completeAmPm)
 
 
 
