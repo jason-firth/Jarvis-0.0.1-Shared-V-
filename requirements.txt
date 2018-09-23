@@ -28,7 +28,7 @@ geographiclib==1.49
 geopy==1.17.0
 weather-api==1.0.4
 geojson==2.3.0
-pyown==2.9.0
+#pyown==2.9.0
 
 # Gmail module
 python-dateutil==2.3
