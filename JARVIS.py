@@ -231,7 +231,7 @@ def assistant(command):
 
 
         elif 'weather forecast in' in command:
-            reg_ex = re.search('weather forecast(.*)', command)
+            reg_ex = re.search('weather forecast in (.*)', command)
             if reg_ex:
                 city = reg_ex.group(1)
                 weather = Weather()
@@ -240,9 +240,14 @@ def assistant(command):
                 for i in range(0,3):
                     talkToMe('On %s will it %s. The maximum temperture will be %.1f degree.'
                              'The lowest temperature will be %.1f degrees.' % (forecasts[i].date(), forecasts[i].text(), (int(forecasts[i].high())-32)/1.8, (int(forecasts[i].low())-32)/1.8))
-
             else:
                 talkToMe('I don\'t know what you mean!')
+        elif 'set alarm' in command:
+            # reg_ex = re.search('set alarm for (.*)', command)
+            # if reg_ex:
+            #     time = reg_ex.group(1)
+            print(command)
+
 
 
 #loop to continue executing multiple commands
