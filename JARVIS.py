@@ -134,22 +134,22 @@ def myCommand():
     return command
 
 
-def alarmjarvis(endTime, ampm):
-    alarmGoing = True
-    print("confirm set alarm for " + endTime)
-    while True:
-        assistant(myCommand())
-        now = datetime.now()
-        if((now.strftime('%I:%M') + ampm) == endTime):
-            if(alarmGoing == True):
-                if(ampm == "a.m."):
-                    engine.say('Good morning sir, this is you alarm for ' + now.strftime('%I:%M') + ampm)
-                    engine.runAndWait()
-                    alarmGoing = False
-                else:
-                    engine.say('Good afternoon sir, this is you alarm for ' + now.strftime('%I:%M') + ampm)
-                    engine.runAndWait()
-                    alarmGoing = False
+# def alarmjarvis(endTime, ampm):
+#     alarmGoing = True
+#     print("confirm set alarm for " + endTime)
+#     while True:
+#         assistant(myCommand())
+#         now = datetime.now()
+#         if((now.strftime('%I:%M') + ampm) == endTime):
+#             if(alarmGoing == True):
+#                 if(ampm == "a.m."):
+#                     engine.say('Good morning sir, this is you alarm for ' + now.strftime('%I:%M') + ampm)
+#                     engine.runAndWait()
+#                     alarmGoing = False
+#                 else:
+#                     engine.say('Good afternoon sir, this is you alarm for ' + now.strftime('%I:%M') + ampm)
+#                     engine.runAndWait()
+#                     alarmGoing = False
 
 
 def assistant(command):
@@ -245,7 +245,8 @@ def assistant(command):
                 talkToMe("It is "+tempFahrenheit + " degrees Fahrenheit")
                 print ("It is "+tempFahrenheit + " degrees Fahrenheit")
 
-
+        elif 'dandy\'s favorite' in command:
+            talkToMe('Dandy\'s favorite student is bill the duck.')
         elif 'weather forecast in' in command:
             reg_ex = re.search('weather forecast in (.*)', command)
             if reg_ex:
@@ -258,15 +259,15 @@ def assistant(command):
                              'The lowest temperature will be %.1f degrees.' % (forecasts[i].date(), forecasts[i].text(), (int(forecasts[i].high())-32)/1.8, (int(forecasts[i].low())-32)/1.8))
             else:
                 talkToMe('I don\'t know what you mean!')
-        elif 'alarm' in command:
-            reg_ex = re.search('an alarm for (.*)', command)
-            if reg_ex:
-                time = reg_ex.group(1)
-                now = datetime.now()
-                completeAmPm = ""
-                AmPmCommand=now.strftime('%p')
-                talkToMe("Alarm set for " + time)
-                alarmjarvis(time, completeAmPm)
+        # elif 'alarm' in command:
+        #     reg_ex = re.search('an alarm for (.*)', command)
+        #     if reg_ex:
+        #         time = reg_ex.group(1)
+        #         now = datetime.now()
+        #         completeAmPm = ""
+        #         AmPmCommand=now.strftime('%p')
+        #         talkToMe("Alarm set for " + time)
+        #         alarmjarvis(time, completeAmPm)
 
 
 
