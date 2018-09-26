@@ -19,6 +19,10 @@ from voiceit2 import VoiceIt2
 from time import gmtime, strftime
 import pyaudio
 import wave
+import requests
+import geocoder
+import encode_faces.py
+import pi_face_recognition.py
 # import alarmJ
 
 engine = pyttsx3.init()
@@ -245,8 +249,15 @@ def assistant(command):
                 talkToMe("It is "+tempFahrenheit + " degrees Fahrenheit")
                 print ("It is "+tempFahrenheit + " degrees Fahrenheit")
 
+        #elif 'lockdown in command:
+
+        elif 'identify'
+            python encode_faces.py --dataset dataset --encodings encodings.pickle \  --detection-method hog
+            python pi_face_recognition.py --cascade haarcascade_frontalface_default.xml \  --encodings encodings.pickle
+            talkToMe('Displaying results')
+
         elif 'dandy\'s favorite' in command:
-            talkToMe('Dandy\'s favorite student is bill the duck.')
+            talkToMe('Dandy\'s favorite student is jason.')
         elif 'weather forecast in' in command:
             reg_ex = re.search('weather forecast in (.*)', command)
             if reg_ex:
