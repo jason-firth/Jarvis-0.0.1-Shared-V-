@@ -28,7 +28,6 @@ geographiclib==1.49
 geopy==1.17.0
 weather-api==1.0.4
 geojson==2.3.0
-#pyown==2.9.0
 
 # Gmail module
 python-dateutil==2.3
@@ -57,10 +56,6 @@ SpeechRecognition==3.8.1
 #TTS
 pyttsx==1.1
 pyttsx3==2.7
-
-#Able to run on windows
-pywin32==223
-pypiwin32==223
 
 #authentication
 voiceit2==2.0.0

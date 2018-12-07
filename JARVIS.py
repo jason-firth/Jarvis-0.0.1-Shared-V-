@@ -21,8 +21,8 @@ import pyaudio
 import wave
 import requests
 import geocoder
-import encode_faces.py
-import pi_face_recognition.py
+#import encode_faces.py
+#import pi_face_recognition.py
 # import alarmJ
 
 engine = pyttsx3.init()
@@ -41,9 +41,9 @@ else:
 
 
 
-authenticated = False
-my_voiceit = VoiceIt2('key_95dc2f49e21d462e9cc03c5a4ba7a076','tok_ff1b7e2e26db42f8b2ee9af8e2e0e109')
-owm = pyowm.OWM('fca9e4262edac35767e09e053c4c76d0')
+#authenticated = False
+#my_voiceit = VoiceIt2('key_95dc2f49e21d462e9cc03c5a4ba7a076','tok_ff1b7e2e26db42f8b2ee9af8e2e0e109')
+owm = #pyowm.OWM('fca9e4262edac35767e09e053c4c76d0')
 
 #engine.say('Please authenticate')
 #engine.runAndWait()
@@ -97,7 +97,7 @@ owm = pyowm.OWM('fca9e4262edac35767e09e053c4c76d0')
 
 
 
-geolocator = Nominatim(user_agent="JARVIS2")
+#geolocator = Nominatim(user_agent="JARVIS2")
 def talkToMe(audio):
     "speaks audio passed as argument"
     engine.say(audio)
@@ -159,19 +159,19 @@ def myCommand():
 def assistant(command):
     "if statements for executing commands"
     if 'jarvis' in command:
-        if 'open website' in command:
-            reg_ex = re.search('open website (.+)', command)
-            if reg_ex:
-                domain = reg_ex.group(1)
-                url = 'https://www.' + domain
-                webbrowser.open(url)
-                print('Done!')
-                engine.say('Opening ' + url)
-                engine.runAndWait()
-            else:
-                pass
+        #if 'open website' in command:
+        #    reg_ex = re.search('open website (.+)', command)
+        #    if reg_ex:
+         #       domain = reg_ex.group(1)
+         #       url = 'https://www.' + domain
+         #       webbrowser.open(url)
+         #       print('Done!')
+         #       engine.say('Opening ' + url)
+         #       engine.runAndWait()
+          #  else:
+          #      pass
         #Get time
-        elif 'time' in command:
+        if 'time' in command:
              now = datetime.now()
              talkToMe("It is " + now.strftime('%I:%M %p'))
 
@@ -220,56 +220,56 @@ def assistant(command):
         elif 'what\'s up' in command:
             talkToMe('Just doing my thing')
 
-        elif 'joke' in command:
-            res = requests.get(
-                    'https://icanhazdadjoke.com/',
-                    headers={"Accept":"application/json"}
-                    )
-            if res.status_code == requests.codes.ok:
-                talkToMe(str(res.json()['joke']))
-                engine.say(str(res.json()['joke']))
-                engine.runAndWait()
-            else:
-                talkToMe('oops!I ran out of jokes')
+        #elif 'joke' in command:
+         #   res = requests.get(
+         #           'https://icanhazdadjoke.com/',
+         #           headers={"Accept":"application/json"}
+         #           )
+            #if res.status_code == requests.codes.ok:
+             #   talkToMe(str(res.json()['joke']))
+             #   engine.say(str(res.json()['joke']))
+             #   engine.runAndWait()
+            #else:
+              #  talkToMe('oops!I ran out of jokes')
 
-        elif 'weather in' in command:
-            reg_ex = re.search('weather in (.*)', command)
-            if reg_ex:
-                city = reg_ex.group(1)
-                weather = Weather()
-                location = geolocator.geocode(city)
-                placeweather = location.latitude, location.longitude
-                #Get weather
-                observation = owm.weather_at_place(city)
-                w = observation.get_weather()
-                currentTemperature = w.get_temperature('celsius')
-                tempCelsius = int(currentTemperature['temp']) * 1.8
-                tempFahrenheit = tempCelsius + 32
-                tempFahrenheit = str(tempFahrenheit)
-                talkToMe("It is "+tempFahrenheit + " degrees Fahrenheit")
-                print ("It is "+tempFahrenheit + " degrees Fahrenheit")
+       # elif 'weather in' in command:
+           # reg_ex = re.search('weather in (.*)', command)
+           # if reg_ex:
+           #     city = reg_ex.group(1)
+           #     weather = Weather()
+          #      location = geolocator.geocode(city)
+          #      placeweather = location.latitude, location.longitude
+          #      #Get weather
+            #    observation = owm.weather_at_place(city)
+            #    w = observation.get_weather()
+            #    currentTemperature = w.get_temperature('celsius')
+           #     tempCelsius = int(currentTemperature['temp']) * 1.8
+           #     tempFahrenheit = tempCelsius + 32
+           #     tempFahrenheit = str(tempFahrenheit)
+           #     talkToMe("It is "+tempFahrenheit + " degrees Fahrenheit")
+           #     print ("It is "+tempFahrenheit + " degrees Fahrenheit")
 
         #elif 'lockdown in command:
 
-        elif 'identify'
-            python encode_faces.py --dataset dataset --encodings encodings.pickle \  --detection-method hog
-            python pi_face_recognition.py --cascade haarcascade_frontalface_default.xml \  --encodings encodings.pickle
-            talkToMe('Displaying results')
+        #elif 'identify'
+        #    python encode_faces.py --dataset dataset --encodings encodings.pickle \  --detection-method hog
+         #   python pi_face_recognition.py --cascade haarcascade_frontalface_default.xml \  --encodings encodings.pickle
+        #    talkToMe('Displaying results')
 
         elif 'dandy\'s favorite' in command:
             talkToMe('Dandy\'s favorite student is jason.')
-        elif 'weather forecast in' in command:
-            reg_ex = re.search('weather forecast in (.*)', command)
-            if reg_ex:
-                city = reg_ex.group(1)
-                weather = Weather()
-                location = weather.lookup_by_location(city)
-                forecasts = location.forecast()
-                for i in range(0,3):
-                    talkToMe('On %s will it %s. The maximum temperture will be %.1f degree.'
+        #elif 'weather forecast in' in command:
+            #reg_ex = re.search('weather forecast in (.*)', command)
+           # if reg_ex:
+                #city = reg_ex.group(1)
+                #weather = Weather()
+                #location = weather.lookup_by_location(city)
+                #forecasts = location.forecast()
+                #for i in range(0,3):
+                    #talkToMe('On %s will it %s. The maximum temperture will be %.1f degree.'
                              'The lowest temperature will be %.1f degrees.' % (forecasts[i].date(), forecasts[i].text(), (int(forecasts[i].high())-32)/1.8, (int(forecasts[i].low())-32)/1.8))
-            else:
-                talkToMe('I don\'t know what you mean!')
+            #else:
+                #talkToMe('I don\'t know what you mean!')
         # elif 'alarm' in command:
         #     reg_ex = re.search('an alarm for (.*)', command)
         #     if reg_ex:
