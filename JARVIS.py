@@ -217,8 +217,8 @@ def assistant(command):
                 talkToMe("The date is "+ month + " 23rd, " + strftime("%Y"))
             else:
                 talkToMe("The date is " + month + strftime("%d") + ", " + strftime("%Y"))
-        elif 'what\'s up' in command:
-            talkToMe('Just doing my thing')
+        elif 'you up' in command:
+            talkToMe('For you sir, always')
 
         #elif 'joke' in command:
          #   res = requests.get(
