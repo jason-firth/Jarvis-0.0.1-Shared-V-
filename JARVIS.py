@@ -113,7 +113,7 @@ def talkToMe(audio):
 
 
 def myCommand():
-    "listens for commands"
+    #"listens for commands"
     #if(not verified):
      #   authStart()
     r = sr.Recognizer()
@@ -219,7 +219,19 @@ def assistant(command):
                 talkToMe("The date is " + month + strftime("%d") + ", " + strftime("%Y"))
         elif 'you up' in command:
             talkToMe('For you sir, always')
+			
+			
+#Movies			
+		#elif 'how about we watch' in command:
+        #    if 'back to to future' in command:
+		#		talkToMe('Good choice sir, loading it now')
 
+#Music
+		#elif 'i want to listen to' in command:
+        #    if 'hip hop' in command:
+		#		talkToMe('playing it now')
+		
+		
         #elif 'joke' in command:
          #   res = requests.get(
          #           'https://icanhazdadjoke.com/',
@@ -267,7 +279,7 @@ def assistant(command):
                 #forecasts = location.forecast()
                 #for i in range(0,3):
                     #talkToMe('On %s will it %s. The maximum temperture will be %.1f degree.'
-                             'The lowest temperature will be %.1f degrees.' % (forecasts[i].date(), forecasts[i].text(), (int(forecasts[i].high())-32)/1.8, (int(forecasts[i].low())-32)/1.8))
+                             #'The lowest temperature will be %.1f degrees.' % (forecasts[i].date(), forecasts[i].text(), (int(forecasts[i].high())-32)/1.8, (int(forecasts[i].low())-32)/1.8))
             #else:
                 #talkToMe('I don\'t know what you mean!')
         # elif 'alarm' in command:
