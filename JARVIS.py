@@ -115,24 +115,25 @@ def myCommand():
 	"listens for commands"
 	#if(not verified):
 	 #   authStart()
-	r = sr.Recognizer()
+	# r = sr.Recognizer()
 
-	with sr.Microphone() as source:
-		print('Yes Sir?')
-		r.pause_threshold = 1
-		r.adjust_for_ambient_noise(source, duration=1)
-		audio = r.listen(source)
+	# with sr.Microphone() as source:
+	# 	print('Yes Sir?')
+	# 	r.pause_threshold = 1
+	# 	r.adjust_for_ambient_noise(source, duration=1)
+	# 	audio = r.listen(source)
 
-	try:
-		command = r.recognize_google(audio).lower()
-		print('You said: ' + command + '\n')
-		# engine.say('You said: ' + command)
-		# engine.runAndWait()
-	#loop back to continue to listen for commands if unrecognizable speech is received
-	except sr.UnknownValueError:
-		print('Your last command couldn\'t be heard')
-		command = myCommand();
+	# try:
+	# 	command = r.recognize_google(audio).lower()
+	# 	print('You said: ' + command + '\n')
+	# 	# engine.say('You said: ' + command)
+	# 	# engine.runAndWait()
+	# #loop back to continue to listen for commands if unrecognizable speech is received
+	# except sr.UnknownValueError:
+	# 	print('Your last command couldn\'t be heard')
+	# 	command = myCommand();
 
+	command = input("Command: ")
 
 	return command
 
@@ -282,7 +283,7 @@ def assistant(command):
 		elif 'stop hud' in command:
 			stophud()
 		elif 'start hud' in command:
-			os.system("python3 hud.py")
+			starthud()
 
 		else:
 			talkToMe('I don\'t know what you mean!')
@@ -303,5 +304,4 @@ def assistant(command):
 while True:
 #     if(authenticated):
 	if(loopCommand):
-		# assistant(myCommand())
-		assistant(input("Command: "))
+		assistant(myCommand())

@@ -1,19 +1,10 @@
 import sys
 import pygame
 import pygame.camera
+going = False
 
-pygame.init()
-pygame.camera.init()
 
-#create fullscreen display 640x480
-screen = pygame.display.set_mode((800, 480), pygame.FULLSCREEN)
-
-#find, open and start low-res camera
-cam_list = pygame.camera.list_cameras()
-webcam = pygame.camera.Camera(cam_list[0],(256, 144))
-webcam.start()
-
-while True:
+while going:
 	#grab image, scale and blit to screen
 	imagen = webcam.get_image()
 	imagen = pygame.transform.scale(imagen,(800, 480))
@@ -28,7 +19,19 @@ while True:
 			webcam.stop()
 			pygame.quit()
 			sys.exit()
+
 def stophud():
 	webcam.stop()
 	pygame.quit()
-	sys.exit()
+	going = False
+def starthud():
+	pygame.init()
+	pygame.camera.init()
+
+	#create fullscreen display 640x480
+	screen = pygame.display.set_mode((800, 480), pygame.FULLSCREEN)
+
+	#find, open and start low-res camera
+	cam_list = pygame.camera.list_cameras()
+	webcam = pygame.camera.Camera(cam_list[0],(256, 144))
+	webcam.start()
