@@ -2,7 +2,6 @@ from gtts import gTTS
 import speech_recognition as sr
 import os
 import sys
-import pyowm
 import re
 import webbrowser
 import smtplib
@@ -42,9 +41,7 @@ else:
 
 
 
-authenticated = False
-my_voiceit = VoiceIt2('key_95dc2f49e21d462e9cc03c5a4ba7a076','tok_ff1b7e2e26db42f8b2ee9af8e2e0e109')
-owm = pyowm.OWM('fca9e4262edac35767e09e053c4c76d0')
+
 
 #engine.say('Please authenticate')
 #engine.runAndWait()
@@ -258,7 +255,7 @@ def assistant(command):
 
 		elif 'play' in command:
 			movieInput = command.split("play")[1].replace(" ", "")
-			directory = "C:/Users/Aaron/Desktop/vids"
+			directory = "/media/pi/8891-D645/"
 			movies = {}
 			moviesList = []
 			filetypes = ["mp4","mp3", "m4v"]
