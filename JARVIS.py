@@ -13,6 +13,7 @@ from datetime import datetime
 from weather import Weather
 from random import randint
 import pyttsx3
+import vlc
 import forecastio
 import json
 from voiceit2 import VoiceIt2
@@ -21,7 +22,7 @@ import pyaudio
 import wave
 import requests
 import geocoder
-import hud.py
+# import hud.py
 # import alarmJ
 
 engine = pyttsx3.init()
@@ -29,6 +30,7 @@ loopCommand = True
 now = datetime.now()
 Currenthour=now.strftime('%I')
 AmPm=now.strftime('%p')
+moviePlaying = False
 
 if(AmPm =='PM'):
 	engine.say('Good evening sir, How can I help?')
@@ -230,7 +232,7 @@ def assistant(command):
 				engine.say(str(res.json()['joke']))
 				engine.runAndWait()
 			else:
-				talkToMe('oops!I ran out of jokes')
+				talkToMe('oops! I ran out of jokes')
 
 		# elif 'weather in' in command:
 		#     reg_ex = re.search('weather in (.*)', command)
@@ -265,8 +267,6 @@ def assistant(command):
 				if("." in movie):
 					if(movie.split(".")[1] in filetypes):
 						pathToMovie = directory+movie
-						
-
 						movies[movie.split(".")[0]] = pathToMovie
 						moviesList.append(movie.split(".")[0].replace("_", " ").replace(" ", ""))
 
@@ -276,14 +276,29 @@ def assistant(command):
 			# FOR JARVIS: change movieToPlay to command.split("play")[1]
 			movieToPlay = movieInput
 			if(movieToPlay in moviesList):
-				talkToMe("playing " + movies)
-				os.system("vlc " + movies[movieToPlay] + " --fullscreen --play-and-exit")
+				# os.system("vlc " + movies[movieToPlay] + " --fullscreen --play-and-exit")
+				player = vlc.MediaPlayer(movies[movieToPlay])
+				player.set_fullscreen(True)
+				player.play()
+				moviePlaying = True
 			else:
 				talkToMe("That does not exist")
-		elif 'stop hud' in command:
-			stophud()
-		elif 'start hud' in command:
-
+		elif 'pause' in command:
+			if(moviePlaying):
+				player.pause()
+				moviePlaying = False
+			else:
+				talkToMe("Nothing is playing")
+		elif 'quit' in command:
+			if(moviePlaying):
+				player.pause()
+				moviePlaying = False
+			else:
+				talkToMe("Nothing is playing")
+		# elif 'stop hud' in command:
+		# 	stophud()
+		# elif 'start hud' in command:
+		# 	os.system("python3 hud.py")
 		else:
 			talkToMe('I don\'t know what you mean!')
 		# elif 'alarm' in command:
