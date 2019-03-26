@@ -283,7 +283,6 @@ def assistant(command):
 		elif 'stop hud' in command:
 			stophud()
 		elif 'start hud' in command:
-			starthud()
 
 		else:
 			talkToMe('I don\'t know what you mean!')
