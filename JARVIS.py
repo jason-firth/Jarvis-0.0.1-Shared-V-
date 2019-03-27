@@ -2,10 +2,12 @@ from gtts import gTTS
 import speech_recognition as sr
 import os
 import sys
+from subprocess import call
 import re
 import webbrowser
 import smtplib
 import urllib.request
+import pygame
 from geopy.geocoders import Nominatim
 from datetime import date, timedelta
 from datetime import datetime
@@ -20,6 +22,7 @@ from time import gmtime, strftime
 import pyaudio
 import wave
 import requests
+#import hud.py
 import geocoder
 # import hud.py
 # import alarmJ
@@ -29,19 +32,13 @@ loopCommand = True
 now = datetime.now()
 Currenthour=now.strftime('%I')
 AmPm=now.strftime('%p')
-moviePlaying = False
-
+paused = False
 if(AmPm =='PM'):
 	engine.say('Good evening sir, How can I help?')
 	engine.runAndWait()
 else:
 	engine.say('Good morning sir, How can I help?')
 	engine.runAndWait()
-
-
-
-
-
 
 #engine.say('Please authenticate')
 #engine.runAndWait()
@@ -156,6 +153,7 @@ def myCommand():
 
 
 def assistant(command):
+	global moviePlaying, player, paused
 	"if statements for executing commands"
 	if 'jarvis' in command:
 		if 'open website' in command:
@@ -259,7 +257,7 @@ def assistant(command):
 			movies = {}
 			moviesList = []
 			filetypes = ["mp4","mp3", "m4v"]
-			print(os.listdir(directory))
+			
 			for movie in os.listdir(directory):
 				if("." in movie):
 					if(movie.split(".")[1] in filetypes):
@@ -275,23 +273,68 @@ def assistant(command):
 			if(movieToPlay in moviesList):
 				# os.system("vlc " + movies[movieToPlay] + " --fullscreen --play-and-exit")
 				player = vlc.MediaPlayer(movies[movieToPlay])
+
 				player.set_fullscreen(True)
+				player.video_set_mouse_input(True)
+				player.video_set_key_input(True)
+				os.system("")
 				player.play()
 				moviePlaying = True
+
 			else:
 				talkToMe("That does not exist")
 		elif 'pause' in command:
-			if(moviePlaying):
+			if(not paused and moviePlaying):
 				player.pause()
-				moviePlaying = False
+				paused = True
 			else:
 				talkToMe("Nothing is playing")
 		elif 'quit' in command:
 			if(moviePlaying):
-				player.pause()
+				player.stop()
 				moviePlaying = False
 			else:
 				talkToMe("Nothing is playing")
+		elif 'resume' in command:
+			if(moviePlaying and paused):
+				player.play()
+				paused = False
+				moviePlaying = True
+		elif 'volume to' in command:
+			setToPercent = command.split("volume to")[1]
+			os.system("amixer set 'PCM' " + setToPercent+"%")
+		elif 'go to the middle' in command:
+			if(moviePlaying):
+				player.set_position(0.5)
+			else:
+				talkToMe("Nothing is playing")
+		elif 'go to the start' in command or 'go the beginning' in command:
+			if(moviePlaying):
+				player.set_position(0.2)
+			else:
+				talkToMe("Nothing is playing")
+		elif 'go to the end' in command:
+			if(moviePlaying):
+				player.set_position(0.9)
+			else:
+				talkToMe("Nothing is playing")
+		elif 'go to' in command:
+			if(moviePlaying):
+				position = command.split("go to ")[1]
+				player.set_position((int(position)/100))
+			else:
+				talkToMe("Nothing is playing")
+
+
+		# elif 'start hud' in command:
+		# 	starthud()
+		# elif 'stop hud' in command:
+		# 	stophud()
+
+
+		elif 'help' in command:
+			talkToMe('I can inform you of the time, tell you the date, and play entertainment for you')
+		
 		# elif 'stop hud' in command:
 		# 	stophud()
 		# elif 'start hud' in command:
@@ -311,7 +354,6 @@ def assistant(command):
 
 
 #loop to continue executing multiple commands
-
 while True:
 #     if(authenticated):
 	if(loopCommand):

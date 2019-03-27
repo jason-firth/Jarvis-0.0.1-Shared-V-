@@ -2,19 +2,17 @@ import sys
 import pygame
 import pygame.camera
 import asyncio
+pygame.init()
+pygame.camera.init()
+#create fullscreen display 640x480
+screen = pygame.display.set_mode((800, 480), pygame.FULLSCREEN)
 
-async def main():
-	pygame.init()
-	pygame.camera.init()
-
-	#create fullscreen display 640x480
-	screen = pygame.display.set_mode((800, 480), pygame.FULLSCREEN)
-
-	#find, open and start low-res camera
-	cam_list = pygame.camera.list_cameras()
-	webcam = pygame.camera.Camera(cam_list[0],(256, 144))
-	webcam.start()
-
+#find, open and start low-res camera
+cam_list = pygame.camera.list_cameras()
+webcam = pygame.camera.Camera(cam_list[0],(256, 144))
+webcam.start()
+def starthud():
+	global screen, cam_list, webcam
 	while True:
 		#grab image, scale and blit to screen
 		imagen = webcam.get_image()
@@ -31,9 +29,9 @@ async def main():
 				pygame.quit()
 				sys.exit()
 def stophud():
-	webcam.stop()
+	global screen, cam_list, webcam
 	pygame.quit()
 	sys.exit()
-
-asyncio.run(main())
+starthud()
+stophud()
 
