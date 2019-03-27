@@ -2,7 +2,7 @@ from gtts import gTTS
 import speech_recognition as sr
 import os
 import sys
-from subprocess import call
+import subprocess
 import re
 import webbrowser
 import smtplib
@@ -22,9 +22,8 @@ from time import gmtime, strftime
 import pyaudio
 import wave
 import requests
-#import hud.py
-import geocoder
 # import hud.py
+import geocoder
 # import alarmJ
 
 engine = pyttsx3.init()
@@ -91,7 +90,7 @@ else:
 
 
 
-
+os.system("mkfifo jarvis")
 geolocator = Nominatim(user_agent="JARVIS2")
 def talkToMe(audio):
 	"speaks audio passed as argument"
@@ -129,8 +128,8 @@ def myCommand():
 	# 	print('Your last command couldn\'t be heard')
 	# 	command = myCommand();
 
-	command = input("Command: ")
-
+	command = os.popen("eval $(cat jarvis) ").read().strip()
+	print(command)
 	return command
 
 
@@ -217,7 +216,7 @@ def assistant(command):
 		elif 'what\'s up' in command:
 			talkToMe('Just doing my thing')
 		elif 'help' in command:
-			talkToMe('I can inform you of the time, tell you the date, and play entertainment for you'.
+			talkToMe('I can inform you of the time, tell you the date, and play entertainment for you')
 		#elif 'joke' in command:
 			#res = requests.get(
 			#		'https://icanhazdadjoke.com/',
@@ -332,9 +331,6 @@ def assistant(command):
 		# elif 'stop hud' in command:
 		# 	stophud()
 
-
-		elif 'help' in command:
-			talkToMe('I can inform you of the time, tell you the date, and play entertainment for you')
 		
 		# elif 'stop hud' in command:
 		# 	stophud()
