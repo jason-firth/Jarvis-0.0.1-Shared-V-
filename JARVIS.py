@@ -156,19 +156,19 @@ def assistant(command):
 	global moviePlaying, player, paused
 	"if statements for executing commands"
 	if 'jarvis' in command:
-		if 'open website' in command:
-			reg_ex = re.search('open website (.+)', command)
-			if reg_ex:
-				domain = reg_ex.group(1)
-				url = 'https://www.' + domain
-				webbrowser.open(url)
-				print('Done!')
-				engine.say('Opening ' + url)
-				engine.runAndWait()
-			else:
-				pass
+		#if 'open website' in command:
+		#	reg_ex = re.search('open website (.+)', command)
+		#	if reg_ex:
+		#		domain = reg_ex.group(1)
+		#		url = 'https://www.' + domain
+		#		webbrowser.open(url)
+		#		print('Done!')
+		#		engine.say('Opening ' + url)
+		#		engine.runAndWait()
+		#	else:
+		#		pass
 		#Get time
-		elif 'time' in command:
+		if 'time' in command:
 			 now = datetime.now()
 			 talkToMe("It is " + now.strftime('%I:%M %p'))
 
@@ -216,20 +216,21 @@ def assistant(command):
 				talkToMe("The date is " + month + strftime("%d") + ", " + strftime("%Y"))
 		elif 'what\'s up' in command:
 			talkToMe('Just doing my thing')
+		elif 'help' in command:
+			talkToMe('I can inform you of the time, tell you the date, and play entertainment for you'.
+		#elif 'joke' in command:
+			#res = requests.get(
+			#		'https://icanhazdadjoke.com/',
+			#		headers={"Accept":"application/json"}
+			#		)
+			#if res.status_code == requests.codes.ok:
+				#talkToMe(str(res.json()['joke']))
+				#engine.say(str(res.json()['joke']))
+				#engine.runAndWait()
+			#else:
+				#talkToMe('oops! I ran out of jokes')
 
-		elif 'joke' in command:
-			res = requests.get(
-					'https://icanhazdadjoke.com/',
-					headers={"Accept":"application/json"}
-					)
-			if res.status_code == requests.codes.ok:
-				talkToMe(str(res.json()['joke']))
-				engine.say(str(res.json()['joke']))
-				engine.runAndWait()
-			else:
-				talkToMe('oops! I ran out of jokes')
-
-		# elif 'weather in' in command:
+		# elif ' in' in command:
 		#     reg_ex = re.search('weather in (.*)', command)
 		#     if reg_ex:
 		#         city = reg_ex.group(1)
