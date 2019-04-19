@@ -123,7 +123,7 @@ def checkCommand(command, ser, moviePlaying, player, paused):
 		directory = "/media/pi/8891-D645/"
 		movies = {}
 		moviesList = []
-		filetypes = ["mp4","mp3", "m4v"]
+		filetypes = ["mp4","mp3", "m4v", "m4a"]
 		
 		for movie in os.listdir(directory):
 			if("." in movie):
