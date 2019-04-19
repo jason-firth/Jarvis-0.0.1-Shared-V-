@@ -5,4 +5,4 @@ print("Simple Jarvis Command Maker")
 
 checkFor = input("What do you want Jarvis to check For?: ")
 returnCom = input("What do you want Jarvis to say?: ")
-os.system(''' echo '\tif ''' + '''"''' +  str(checkFor) + '''"''' + ''' in command: \t return("''' + str(returnCom) + '''") \n' >> commands.py ''')
+os.system(''' echo '\telif ''' + '''"''' +  str(checkFor) + '''"''' + ''' in command: \t return("''' + str(returnCom) + '''") \n' >> commands.py ''')
