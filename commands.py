@@ -27,7 +27,13 @@ import serial
 from bluetooth import *
 from datetime import datetime
 
-def checkCommand(command, moviePlaying, player, paused, usingBluetooth, bluetoothNotWanted, serverStarted):
+'''
+With commands, if you don't want Jarvis to reply, make sure you still return "command no voice".
+If you want Jarvis to say something, return "(What you want jarvis to say)"
+
+'''
+
+def checkCommand(command, ser, moviePlaying, player, paused):
     if 'time' in command:
         now = datetime.now()
         return("It is " + now.strftime('%I:%M %p'))
@@ -141,19 +147,21 @@ def checkCommand(command, moviePlaying, player, paused, usingBluetooth, bluetoot
             os.system("")
             player.play()
             moviePlaying = True
-
+            return("command no voice")
         else:
             return("That does not exist")
     elif 'pause' in command:
         if(not paused and moviePlaying):
             player.pause()
             paused = True
+            return("command no voice")
         else:
             return("Nothing is playing")
     elif 'quit' in command:
         if(moviePlaying):
             player.stop()
             moviePlaying = False
+            return("command no voice")
         else:
             return("Nothing is playing")
     elif 'resume' in command:
@@ -161,38 +169,40 @@ def checkCommand(command, moviePlaying, player, paused, usingBluetooth, bluetoot
             player.play()
             paused = False
             moviePlaying = True
+            return("command no voice")
     elif 'volume to' in command:
         setToPercent = command.split("volume to")[1]
         os.system("amixer set 'PCM' " + setToPercent+"%")
+        return("command no voice")
     elif 'go to the middle' in command:
         if(moviePlaying):
             player.set_position(0.5)
+            return("command no voice")
         else:
             return("Nothing is playing")
     elif 'go to the start' in command or 'go the beginning' in command:
         if(moviePlaying):
             player.set_position(0.2)
+            return("command no voice")
         else:
             return("Nothing is playing")
     elif 'go to the end' in command:
         if(moviePlaying):
             player.set_position(0.9)
+            return("command no voice")
         else:
             return("Nothing is playing")
     elif 'go to' in command:
         if(moviePlaying):
             position = command.split("go to ")[1]
             player.set_position((int(position)/100))
+            return("command no voice")
         else:
             return("Nothing is playing")
     elif 'color to' in command:
         color = command.split("color to")[1]
         ser.write(color.encode())
-    elif 'enable app' in command or 'start app' in command or 'initialize app' in command:
-        # os.system("sudo python3 ~/Jarvis-0.0.1-Shared-V-/blu.py")
-        return('Starting app compatability')
-        serverStarted = True
-        bluetoothNotWanted = False
+        return("Changing Color")
         # assistant(myCommand())
     # elif 'start hud' in command:
     # 	starthud()
@@ -204,5 +214,4 @@ def checkCommand(command, moviePlaying, player, paused, usingBluetooth, bluetoot
     # 	stophud()
     # elif 'start hud' in command:
     # 	os.system("python3 hud.py")
-    else:
-        return('I don\'t know what you mean!')
+    

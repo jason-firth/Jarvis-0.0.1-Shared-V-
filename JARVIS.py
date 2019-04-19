@@ -46,10 +46,10 @@ now = datetime.now()
 AmPm=now.strftime('%p')
 paused = False
 if(AmPm =='PM'):
-	engine.say('Good evening sir, How can I help?')
+	engine.say('Good evening sir, we are online and ready.')
 	engine.runAndWait()
 else:
-	engine.say('Good morning sir, How can I help?')
+	engine.say('Good morning sir, we are online and ready.')
 	engine.runAndWait()
 
 #engine.say('Please authenticate')
@@ -215,10 +215,18 @@ def assistant(command):
 	global moviePlaying, player, paused, usingBluetooth, bluetoothNotWanted, serverStarted
 	"if statements for executing commands"
 	if 'jarvis' in command:
-    		talkToMe(checkCommand(command, moviePlaying, player, paused, usingBluetooth, bluetoothNotWanted, serverStarted))
-
-
-
+		if 'enable app' in command or 'start app' in command or 'initialize app' in command:
+			# os.system("sudo python3 ~/Jarvis-0.0.1-Shared-V-/blu.py")
+			talkToMe('Starting app')
+			serverStarted = True
+			bluetoothNotWanted = False
+		else:	
+			if(checkCommand(command, ser, moviePlaying, player, paused) == "command no voice"):
+				checkCommand(command, ser, moviePlaying, player, paused)
+			elif(checkCommand(command, ser, moviePlaying, player, paused) != None):
+				talkToMe(checkCommand(command, ser, moviePlaying, player, paused))
+			else:
+				talkToMe(checkCommand(command, ser, moviePlaying, player, paused))
 #loop to continue executing multiple commands
 while True:
 	ser = serial.Serial('/dev/ttyACM0', 9600)
