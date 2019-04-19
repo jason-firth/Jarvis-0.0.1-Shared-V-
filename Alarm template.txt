@@ -1,9 +1,0 @@
-Good Morning, the time is 7:00 am the weather in missoula is 70 degrees witth scattered clouds. You have no scheduled appointments for the day and the suit is fully charged.
-
-This would be the internet connected version  /\
-											   |
-
-							  |
-The offline version would be \/
-
-Good morning, the time is 7:00 you have no scheduled appointments for the day and the suit is fully charged.
