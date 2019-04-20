@@ -221,11 +221,13 @@ def assistant(command):
 			serverStarted = True
 			bluetoothNotWanted = False
 		else:
+			
 			if(checkCommand(command, ser, moviePlaying, player, paused) == "command no voice"):
 				checkCommand(command, ser, moviePlaying, player, paused)
 			else:
 				talkToMe(checkCommand(command, ser, moviePlaying, player, paused))
 	command = ""
+
 #loop to continue executing multiple commands
 while True:
 	ser = serial.Serial('/dev/ttyACM0', 9600)

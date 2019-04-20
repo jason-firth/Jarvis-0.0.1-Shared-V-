@@ -240,6 +240,7 @@ def checkCommand(command, ser, moviePlaying, player, paused):
 		ser.write(color.encode())
 		return("Changing Color")
 	elif 'message' in command:
+			ser.write("0,0,255".encode())
 			foundCon = False
 			personLength = 0
 			temp = command.split("message ")[1]
@@ -259,8 +260,15 @@ def checkCommand(command, ser, moviePlaying, player, paused):
 			
 
 	else:
+		ser.write("255,0,0".encode())
 		return("Please repeat that")
-	
+	ser.write("0,0,0".encode())
+	ser.write("0,0,0".encode())
+	ser.write("0,0,0".encode())
+	ser.write("0,0,0".encode())
+	ser.write("0,0,0".encode())
+	ser.write("0,0,0".encode())
+	ser.write("0,0,0".encode())
 	# assistant(myCommand())
 	# elif 'start hud' in command:
 	# 	starthud()
