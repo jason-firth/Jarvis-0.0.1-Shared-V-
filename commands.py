@@ -27,11 +27,47 @@ import serial
 from bluetooth import *
 from datetime import datetime
 
+contacts = {
+	"aaron":"4062406280",
+	"mom": "4065429000",
+	"dad": "4063967979",
+	"sister": "4062738727",
+	"dan": "4065445742"
+}
+
 '''
 With commands, if you don't want Jarvis to reply, make sure you still return "command no voice".
 If you want Jarvis to say something, return "(What you want jarvis to say)"
 
 '''
+
+def messagePerson(number, message):
+	# MAC Address
+	addr = "50:55:27:8C:E1:06"
+
+	# search for the SampleServer service
+	uuid = "94f39d29-7d6d-437d-973b-fba39e49d4ee"
+	service_matches = find_service( uuid = uuid, address = addr )
+
+	if len(service_matches) == 0:
+		return("Sorry Sir, Your device wasn't found")
+
+	first_match = service_matches[0]
+	port = first_match["port"]
+	name = first_match["name"]
+	host = first_match["host"]
+
+
+	# Create the client socket
+	sock=BluetoothSocket( RFCOMM )
+	sock.connect((host, port))
+
+	# print("connected. Type stuff")
+	# print((number+"|"+message).replace("-", "").replace("406",""))
+			
+	sock.send(number+"|"+message.replace("406",""))
+	sock.close()
+
 
 def checkCommand(command, ser, moviePlaying, player, paused):
 	if 'time' in command:
@@ -203,7 +239,29 @@ def checkCommand(command, ser, moviePlaying, player, paused):
 		color = command.split("color to")[1]
 		ser.write(color.encode())
 		return("Changing Color")
-		# assistant(myCommand())
+	elif 'message' in command:
+			foundCon = False
+			personLength = 0
+			temp = command.split("message ")[1]
+			for person in contacts:
+				if(person in temp):
+					foundCon = True
+					number = contacts[person]
+					personLength = len(person)
+			if(not foundCon):
+				number = temp[:12].replace("-", "")
+				message = temp[12:]
+			else:
+				message = temp[personLength:]
+			print(number, message)
+			messagePerson(number, message)
+			return("command no voice")
+			
+
+	else:
+		return("Please repeat that")
+	
+	# assistant(myCommand())
 	# elif 'start hud' in command:
 	# 	starthud()
 	# elif 'stop hud' in command:

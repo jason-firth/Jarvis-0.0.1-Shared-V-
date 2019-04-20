@@ -214,19 +214,18 @@ def myCommand():
 def assistant(command):
 	global moviePlaying, player, paused, usingBluetooth, bluetoothNotWanted, serverStarted
 	"if statements for executing commands"
-	if 'jarvis' in command:
+	if 'jarvis ' in command:
 		if 'enable app' in command or 'start app' in command or 'initialize app' in command:
 			# os.system("sudo python3 ~/Jarvis-0.0.1-Shared-V-/blu.py")
 			talkToMe('Starting app')
 			serverStarted = True
 			bluetoothNotWanted = False
-		else:	
+		else:
 			if(checkCommand(command, ser, moviePlaying, player, paused) == "command no voice"):
 				checkCommand(command, ser, moviePlaying, player, paused)
-			elif(checkCommand(command, ser, moviePlaying, player, paused) != None):
-				talkToMe(checkCommand(command, ser, moviePlaying, player, paused))
 			else:
 				talkToMe(checkCommand(command, ser, moviePlaying, player, paused))
+	command = ""
 #loop to continue executing multiple commands
 while True:
 	ser = serial.Serial('/dev/ttyACM0', 9600)
