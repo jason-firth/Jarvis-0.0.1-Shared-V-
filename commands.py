@@ -21,6 +21,7 @@ import json
 # from voiceit2 import VoiceIt2
 from time import gmtime, strftime
 import pyaudio
+import random
 import wave
 import requests
 # import hud.py
@@ -57,11 +58,9 @@ def internet_on():
 			host = socket.gethostbyname("www.google.com")
 			s = socket.create_connection((host, 80), 2)
 			s.close()
-			print ('internet on.')
 			return True
 
 		except Exception:
-			print ("internet off.")
 	return False
 
 
@@ -257,6 +256,12 @@ def checkCommand(command, ser, moviePlaying, player, paused, serverStarted):
 			return("command no voice")
 		else:
 			return("Nothing is playing")
+	elif 'flip a coin' in command:
+    	randomNum = random.randint(0,1)
+		if(randomNum == 0):
+    		return("It was heads")
+		else:
+    		return("It was tails")
 	elif 'color to' in command:
 		color = command.split("color to")[1]
 		ser.write(color.encode())
