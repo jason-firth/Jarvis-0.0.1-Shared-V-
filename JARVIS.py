@@ -222,10 +222,10 @@ def assistant(command):
 			bluetoothNotWanted = False
 		else:
 			
-			if(checkCommand(command, ser, moviePlaying, player, paused) == "command no voice"):
+			if(checkCommand(command, ser, moviePlaying, player, paused, serverStarted) == "command no voice"):
 				checkCommand(command, ser, moviePlaying, player, paused)
 			else:
-				talkToMe(checkCommand(command, ser, moviePlaying, player, paused))
+				talkToMe(checkCommand(command, ser, moviePlaying, player, paused, serverStarted))
 	command = ""
 
 #loop to continue executing multiple commands

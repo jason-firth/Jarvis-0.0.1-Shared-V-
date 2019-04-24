@@ -7,12 +7,14 @@ import subprocess
 import re
 # import webbrowser
 import smtplib
+import urllib
 import urllib.request
 import pygame
 # from geopy.geocoders import Nominatim
 # from weather import Weather
 from random import randint
 import pyttsx3
+import socket
 import vlc
 # import forecastio
 import json
@@ -27,6 +29,12 @@ import serial
 from bluetooth import *
 from datetime import datetime
 
+# Weather
+from weather import getTemperature
+from weather import getPressure
+from weather import getHumidity
+
+
 contacts = {
 	"aaron":"4062406280",
 	"mom": "4065429000",
@@ -40,6 +48,22 @@ With commands, if you don't want Jarvis to reply, make sure you still return "co
 If you want Jarvis to say something, return "(What you want jarvis to say)"
 
 '''
+
+def internet_on():
+	for timeout in [1,5,10,15]:
+		try:
+			print ("checking internet connection..")
+			socket.setdefaulttimeout(timeout)
+			host = socket.gethostbyname("www.google.com")
+			s = socket.create_connection((host, 80), 2)
+			s.close()
+			print ('internet on.')
+			return True
+
+		except Exception:
+			print ("internet off.")
+	return False
+
 
 def messagePerson(number, message):
 	# MAC Address
@@ -69,8 +93,37 @@ def messagePerson(number, message):
 	sock.close()
 
 
-def checkCommand(command, ser, moviePlaying, player, paused):
-	if 'time' in command:
+def checkCommand(command, ser, moviePlaying, player, paused, serverStarted):
+	if 'joke' in command and internet_on():
+		res = requests.get(
+				'https://icanhazdadjoke.com/',
+				headers={"Accept":"application/json"}
+				)
+		if res.status_code == requests.codes.ok:
+			return(str(res.json()['joke']))
+			engine.say(str(res.json()['joke']))
+			engine.runAndWait()
+		else:
+			return('oops! I ran out of jokes')
+
+	# Weather
+	elif 'weather in' in command and internet_on():
+		city = command.split("weather in ")[1]
+		return("The temperature in " + city + " is " + getTemperature(city) + " degrees fahrenheit. The pressure is " + getPressure(city) + ". The humidity is " + getHumidity(city) + ".")
+	elif 'temp in' in command and internet_on():
+		city = command.split("temp in ")[1]
+		return("The temperature in " + city + " is " + getTemperature(city) + ".")
+	elif 'temperature in' in command and internet_on():
+		city = command.split("temperature in ")[1]
+		return("The temperature in " + city + " is " + getTemperature(city) + ".")
+	elif 'pressure in' in command and internet_on():
+		city = command.split("pressure in")[1]
+		return("The pressure is " + getPressure(city) + ".")
+	elif 'humidity in' in command and internet_on():
+		city = command.split("humidity in")[1]
+		return("The humidity is " + getHumidity(city) + ".")
+		
+	elif 'time' in command:
 		now = datetime.now()
 		return("It is " + now.strftime('%I:%M %p'))
 
@@ -120,37 +173,6 @@ def checkCommand(command, ser, moviePlaying, player, paused):
 		return('Just doing my thing')
 	elif 'help' in command:
 		return('I can inform you of the time, tell you the date, and play entertainment for you')
-	#elif 'joke' in command:
-		#res = requests.get(
-		#		'https://icanhazdadjoke.com/',
-		#		headers={"Accept":"application/json"}
-		#		)
-		#if res.status_code == requests.codes.ok:
-			#return(str(res.json()['joke']))
-			#engine.say(str(res.json()['joke']))
-			#engine.runAndWait()
-		#else:
-			#return('oops! I ran out of jokes')
-
-	# elif ' in' in command:
-	#     reg_ex = re.search('weather in (.*)', command)
-	#     if reg_ex:
-	#         city = reg_ex.group(1)
-	#         weather = Weather()
-	#         location = geolocator.geocode(city)
-	#         placeweather = location.latitude, location.longitude
-	#         #Get weather
-	#         observation = owm.weather_at_place(city)
-	#         w = observation.get_weather()
-	#         currentTemperature = w.get_temperature('celsius')
-	#         tempCelsius = int(currentTemperature['temp']) * 1.8
-	#         tempFahrenheit = tempCelsius + 32
-	#         tempFahrenheit = str(tempFahrenheit)
-	#         return("It is "+tempFahrenheit + " degrees Fahrenheit")
-	#         print ("It is "+tempFahrenheit + " degrees Fahrenheit")
-
-	#elif 'lockdown in command:
-
 	elif 'dandy\'s favorite' in command:
 		return('Dandy\'s favorite student is Jason. He also likes Aaron equally as much.')
 
@@ -239,8 +261,7 @@ def checkCommand(command, ser, moviePlaying, player, paused):
 		color = command.split("color to")[1]
 		ser.write(color.encode())
 		return("Changing Color")
-	elif 'message' in command:
-			ser.write("0,0,255".encode())
+	elif 'message' in command and serverStarted:
 			foundCon = False
 			personLength = 0
 			temp = command.split("message ")[1]
@@ -260,15 +281,7 @@ def checkCommand(command, ser, moviePlaying, player, paused):
 			
 
 	else:
-		ser.write("255,0,0".encode())
 		return("Please repeat that")
-	ser.write("0,0,0".encode())
-	ser.write("0,0,0".encode())
-	ser.write("0,0,0".encode())
-	ser.write("0,0,0".encode())
-	ser.write("0,0,0".encode())
-	ser.write("0,0,0".encode())
-	ser.write("0,0,0".encode())
 	# assistant(myCommand())
 	# elif 'start hud' in command:
 	# 	starthud()
