@@ -142,7 +142,6 @@ def myCommand():
 			command = myCommand();
 		# Below is used for keyboard input
 		# command = input ("command: ")
-		print(command)
 		usingBluetooth = False
 	else:
 		command = ""
@@ -174,7 +173,6 @@ def myCommand():
 				bluetoothNotWanted = True
 				serverStarted = False
 				usingBluetooth = False
-			print(command)
 		except IOError:
 			pass
 

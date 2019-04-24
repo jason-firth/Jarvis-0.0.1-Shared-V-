@@ -30,6 +30,10 @@ import serial
 from bluetooth import *
 from datetime import datetime
 
+# Directions
+from directions import navigate
+from directions import timeToPlace
+
 # Weather
 from weather import getTemperature
 from weather import getPressure
@@ -61,7 +65,7 @@ def internet_on():
 			return True
 
 		except Exception:
-	return False
+			return False
 
 
 def messagePerson(number, message):
@@ -257,11 +261,11 @@ def checkCommand(command, ser, moviePlaying, player, paused, serverStarted):
 		else:
 			return("Nothing is playing")
 	elif 'flip a coin' in command:
-    	randomNum = random.randint(0,1)
+		randomNum = random.randint(0,1)
 		if(randomNum == 0):
-    		return("It was heads")
+			return("It was heads")
 		else:
-    		return("It was tails")
+			return("It was tails")
 	elif 'color to' in command:
 		color = command.split("color to")[1]
 		ser.write(color.encode())
@@ -283,6 +287,16 @@ def checkCommand(command, ser, moviePlaying, player, paused, serverStarted):
 			print(number, message)
 			messagePerson(number, message)
 			return("command no voice")
+	elif 'how long will it take to get to' in command and internet_on():
+		start = command.split("how long will it take to get to")[1]
+		start = start.split("from")[0]
+		end = command.split("from")[1]
+		return(timeToPlace(start, end))
+	elif 'how long will it take to go to' in command and internet_on():
+		start = command.split("how long will it take to go to")[1]
+		start = start.split("from")[0]
+		end = command.split("from")[1]
+		return(timeToPlace(start, end))
 			
 
 	else:
