@@ -33,6 +33,8 @@ from datetime import datetime
 # Directions
 from directions import navigate
 from directions import timeToPlace
+direc = []
+stepNum = 0
 
 # Weather
 from weather import getTemperature
@@ -97,6 +99,7 @@ def messagePerson(number, message):
 
 
 def checkCommand(command, ser, moviePlaying, player, paused, serverStarted):
+	global direc, stepNum
 	if 'joke' in command and internet_on():
 		res = requests.get(
 				'https://icanhazdadjoke.com/',
@@ -294,11 +297,46 @@ def checkCommand(command, ser, moviePlaying, player, paused, serverStarted):
 		return(timeToPlace(start, end))
 	elif 'how long will it take to go to' in command and internet_on():
 		start = command.split("how long will it take to go to")[1]
-		start = start.split("from")[0]
+		start = end.split("from")[0]
 		end = command.split("from")[1]
 		return(timeToPlace(start, end))
-			
-
+	elif 'navigate to' in command and "from " in command and internet_on():
+		end1 = command.split("to ")[1]
+		end2 = end1.split("from ")[1]
+		start = end1.split("from ")[0]
+		if(navigate(start, end2) != "An error occured"):
+			for thing in navigate(start, end2):
+				direc.append(thing)
+		stepNum = 1
+		return("Navigating to " + start + " From " + end2 + ". There are " + str(direc[0]) + " steps. " + direc[1])
+	elif 'take me to' in command and "from " in command and internet_on():
+		end1 = command.split("take me to ")[1]
+		end2 = end1.split("from ")[1]
+		start = end1.split("from ")[0]
+		if(navigate(start, end2) != "An error occured"):
+			for thing in navigate(start, end2):
+				direc.append(thing)
+		stepNum = 1
+		return("Navigating to " + start + " From " + end2 + ". There are " + str(direc[0]) + " steps. " + direc[1])
+	elif 'next direction' in command or 'next step' in command and internet_on():
+		if(stepNum != 0 and not ((stepNum+1) > len(direc))):
+			stepNum += 1
+			if(stepNum+1 == len(direc)):
+				stepNum = 0
+				direc = []
+			return(direc[stepNum])
+		else:
+			return("You haven't started navigation")
+	elif 'previous direction' in command or 'last direction' in command or 'last step' in command or 'previous step' in command and internet_on():
+		if(stepNum != 0 or stepNum != 1):
+			stepNum -= 1
+			return(direc[stepNum])
+		else:
+			return("You haven't started navigation")
+	elif 'exit navi' in command or 'stop navi' in command:
+		stepNum = 0
+		direc = []
+		return("Exiting Route")
 	else:
 		return("Please repeat that")
 	# assistant(myCommand())

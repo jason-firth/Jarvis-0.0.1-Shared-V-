@@ -10,9 +10,9 @@ def cleanhtml(raw_html):
 def navigate(start, end):
 	start = start.replace(" ", "+")
 	end = end.replace(" ", "+")
-    # To get your key, simply go to https://console.developers.google.com/apis/dashboard, enable the Directions API, create a API key and paste it below
-    key = "AIzaSyCS32VILSRfFUnvHCTULmgATk2XUuehbCg"
-	urlToScrape = "https://maps.googleapis.com/maps/api/directions/json?origin="+start+"&destination="+end+"&"+key
+	# To get your key, simply go to https://console.developers.google.com/apis/dashboard, enable the Directions API, create a API key and paste it below
+	key="AIzaSyCS32VILSRfFUnvHCTULmgATk2XUuehbCg"
+	urlToScrape = "https://maps.googleapis.com/maps/api/directions/json?origin="+start+"&destination="+end+"&key="+key
 
 	response = requests.get(urlToScrape)
 
