@@ -158,7 +158,6 @@ def myCommand():
 
 		# client_sock, client_info = server_sock.accept()
 		# print("Accepted connection from ", client_info)
-		print("BLUETOOTH")
 		# server_sock=BluetoothSocket( RFCOMM )
 		# server_sock.bind(("",PORT_ANY))
 		# server_sock.listen(1)
@@ -240,7 +239,6 @@ while True:
 #     if(authenticated):
 	if(loopCommand):
 		if(serverStarted and not bluetoothNotWanted):
-			print("Server Ready!")
 			ser = serial.Serial('/dev/ttyACM0', 9600)
 			server_sock=BluetoothSocket( RFCOMM )
 			server_sock.bind(("",PORT_ANY))
@@ -249,7 +247,6 @@ while True:
 			uuid = "94f39d29-7d6d-437d-973b-fba39e49d4ee"
 			advertise_service( server_sock, "SampleServer", service_id = uuid, service_classes = [ uuid, SERIAL_PORT_CLASS ], profiles = [ SERIAL_PORT_PROFILE ])
 			client_sock, client_info = server_sock.accept()
-			print("Accepted connection from ", client_info)
 			startedServer = True
 			connected = True
 			bluetoothNotWanted = False

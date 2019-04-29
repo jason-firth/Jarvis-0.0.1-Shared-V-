@@ -71,3 +71,7 @@ certifi
 chardet
 idna
 urllib3
+
+# Audio
+vlc
+
