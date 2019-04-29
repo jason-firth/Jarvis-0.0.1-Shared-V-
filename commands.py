@@ -74,7 +74,7 @@ def messagePerson(number, message):
 	# MAC Address
 	addr = "50:55:27:8C:E1:06"
 
-	# search for the SampleServer service
+	# search for theadr
 	uuid = "94f39d29-7d6d-437d-973b-fba39e49d4ee"
 	service_matches = find_service( uuid = uuid, address = addr )
 
@@ -98,7 +98,7 @@ def messagePerson(number, message):
 	sock.close()
 
 
-def checkCommand(command, ser, moviePlaying, player, paused, serverStarted):
+def checkCommand(command, ser, moviePlaying, player, paused, serverStarted, usingArduino, usingMedia):
 	global direc, stepNum
 	if 'joke' in command and internet_on():
 		res = requests.get(
@@ -179,14 +179,15 @@ def checkCommand(command, ser, moviePlaying, player, paused, serverStarted):
 		return('Just doing my thing')
 	elif 'help' in command:
 		return('I can inform you of the time, tell you the date, and play entertainment for you')
-	elif 'dandy\'s favorite' in command:
-		return('Dandy\'s favorite student is Jason. He also likes Aaron equally as much.')
-
-	elif 'play' in command:
+	elif 'play' in command and usingMedia:
 		movieInput = command.split("play")[1].replace(" ", "")
+
+		# If you plan on using music, run the command ls /media/pi/ and replace 8891-D645/ with whatever pops up. Make sure to include the /
 		directory = "/media/pi/8891-D645/"
 		movies = {}
 		moviesList = []
+
+		# If you have any other filetpyes, add them here
 		filetypes = ["mp4","mp3", "m4v", "m4a"]
 		
 		for movie in os.listdir(directory):
@@ -214,21 +215,21 @@ def checkCommand(command, ser, moviePlaying, player, paused, serverStarted):
 			return("command no voice")
 		else:
 			return("That does not exist")
-	elif 'pause' in command:
+	elif 'pause' in command and usingMedia:
 		if(not paused and moviePlaying):
 			player.pause()
 			paused = True
 			return("command no voice")
 		else:
 			return("Nothing is playing")
-	elif 'quit' in command:
+	elif 'quit' in command and usingMedia:
 		if(moviePlaying):
 			player.stop()
 			moviePlaying = False
 			return("command no voice")
 		else:
 			return("Nothing is playing")
-	elif 'resume' in command:
+	elif 'resume' in command and usingMedia:
 		if(moviePlaying and paused):
 			player.play()
 			paused = False
@@ -238,25 +239,25 @@ def checkCommand(command, ser, moviePlaying, player, paused, serverStarted):
 		setToPercent = command.split("volume to")[1]
 		os.system("amixer set 'PCM' " + setToPercent+"%")
 		return("command no voice")
-	elif 'go to the middle' in command:
+	elif 'go to the middle' in command and usingMedia:
 		if(moviePlaying):
 			player.set_position(0.5)
 			return("command no voice")
 		else:
 			return("Nothing is playing")
-	elif 'go to the start' in command or 'go the beginning' in command:
+	elif 'go to the start' in command or 'go the beginning' in command and usingMedia:
 		if(moviePlaying):
 			player.set_position(0.2)
 			return("command no voice")
 		else:
 			return("Nothing is playing")
-	elif 'go to the end' in command:
+	elif 'go to the end' in command and usingMedia:
 		if(moviePlaying):
 			player.set_position(0.9)
 			return("command no voice")
 		else:
 			return("Nothing is playing")
-	elif 'go to' in command:
+	elif 'go to' in command and usingMedia:
 		if(moviePlaying):
 			position = command.split("go to ")[1]
 			player.set_position((int(position)/100))
@@ -269,7 +270,7 @@ def checkCommand(command, ser, moviePlaying, player, paused, serverStarted):
 			return("It was heads")
 		else:
 			return("It was tails")
-	elif 'color to' in command:
+	elif 'color to' in command and usingArduino:
 		color = command.split("color to")[1]
 		ser.write(color.encode())
 		return("Changing Color")

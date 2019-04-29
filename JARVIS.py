@@ -27,14 +27,24 @@ import serial
 from bluetooth import *
 from datetime import datetime
 
-moviePlaying = False
+# If you don't plan on using an arduino to control the NeoPixel Ring, set the variable usingArduino to False
+usingArduino = False
 
+# If you don't want music functions, set the usingMedia variable to False
+usingMedia = False
+
+
+moviePlaying = False
 player = ""
 
-ser = serial.Serial('/dev/ttyACM0', 9600)
-ser.write("255,0,0".encode())
-ser.write("0,255,0".encode())
-ser.write("0,0,255".encode())
+
+if(usingArduino):
+	ser = serial.Serial('/dev/ttyACM0', 9600)
+	ser.write("255,0,0".encode())
+	ser.write("0,255,0".encode())
+	ser.write("0,0,255".encode())
+else:
+	ser = ""
 from commands import checkCommand
 serverStarted = False
 # Used to mute jarvis
@@ -120,7 +130,7 @@ def talkToMe(audio):
 
 
 def myCommand():
-	global usingBluetooth, bluetoothNotWanted, connected, serverStarted
+	global usingBluetooth, bluetoothNotWanted, connected, serverStarted, usingArduino
 	"listens for commands"
 	#if(not verified):
 	#   authStart()
@@ -209,7 +219,7 @@ def myCommand():
 
 
 def assistant(command):
-	global moviePlaying, player, paused, usingBluetooth, bluetoothNotWanted, serverStarted
+	global moviePlaying, player, paused, usingBluetooth, bluetoothNotWanted, serverStarted, usingArduino, usingMedia
 	"if statements for executing commands"
 	if 'jarvis ' in command:
 		if 'enable app' in command or 'start app' in command or 'initialize app' in command:
@@ -219,19 +229,21 @@ def assistant(command):
 			bluetoothNotWanted = False
 		else:
 			
-			if(checkCommand(command, ser, moviePlaying, player, paused, serverStarted) == "command no voice"):
-				checkCommand(command, ser, moviePlaying, player, paused, serverStarted)
+			if(checkCommand(command, ser, moviePlaying, player, paused, serverStarted, usingArduino, usingMedia) == "command no voice"):
+				checkCommand(command, ser, moviePlaying, player, paused, serverStarted, usingArduino, usingMedia)
 			else:
-				talkToMe(checkCommand(command, ser, moviePlaying, player, paused, serverStarted))
+				talkToMe(checkCommand(command, ser, moviePlaying, player, paused, serverStarted, usingArduino, usingMedia))
 	command = ""
 
 #loop to continue executing multiple commands
 while True:
-	ser = serial.Serial('/dev/ttyACM0', 9600)
+	if(usingArduino):
+		ser = serial.Serial('/dev/ttyACM0', 9600)
 	server_sock=BluetoothSocket( RFCOMM )
 	server_sock.bind(("",PORT_ANY))
 	server_sock.listen(1)
 	port = server_sock.getsockname()[1]
+
 	uuid = "94f39d29-7d6d-437d-973b-fba39e49d4ee"
 	#advertise_service( server_sock, "SampleServer", service_id = uuid, service_classes = [ uuid, SERIAL_PORT_CLASS ], profiles = [ SERIAL_PORT_PROFILE ])
 	#client_sock, client_info = server_sock.accept()
@@ -239,7 +251,8 @@ while True:
 #     if(authenticated):
 	if(loopCommand):
 		if(serverStarted and not bluetoothNotWanted):
-			ser = serial.Serial('/dev/ttyACM0', 9600)
+			if(usingArduino):
+				ser = serial.Serial('/dev/ttyACM0', 9600)
 			server_sock=BluetoothSocket( RFCOMM )
 			server_sock.bind(("",PORT_ANY))
 			server_sock.listen(1)
