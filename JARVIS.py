@@ -221,7 +221,7 @@ def assistant(command):
 		else:
 			
 			if(checkCommand(command, ser, moviePlaying, player, paused, serverStarted) == "command no voice"):
-				checkCommand(command, ser, moviePlaying, player, paused)
+				checkCommand(command, ser, moviePlaying, player, paused, serverStarted)
 			else:
 				talkToMe(checkCommand(command, ser, moviePlaying, player, paused, serverStarted))
 	command = ""
