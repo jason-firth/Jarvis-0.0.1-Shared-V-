@@ -27,6 +27,7 @@ import serial
 from bluetooth import *
 from datetime import datetime
 
+
 # If you don't plan on using an arduino to control the NeoPixel Ring, set the variable usingArduino to False
 usingArduino = False
 

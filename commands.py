@@ -41,7 +41,6 @@ from weather import getTemperature
 from weather import getPressure
 from weather import getHumidity
 
-
 contacts = {
 	"aaron":"###-###-####",
 	"mom": "###-###-####",
@@ -338,6 +337,7 @@ def checkCommand(command, ser, moviePlaying, player, paused, serverStarted, usin
 		stepNum = 0
 		direc = []
 		return("Exiting Route")
+
 	else:
 		return("Please repeat that")
 	# assistant(myCommand())
